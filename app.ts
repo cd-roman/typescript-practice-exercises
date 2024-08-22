@@ -33,3 +33,102 @@ type Numeric = number | boolean;
 
 // Intersection type
 type Universal = Combinable & Numeric;
+
+////////////////////////// Type Guards //////////////////////////
+
+// Type guards allow us to check the type of a variable at runtime.
+
+function add(a: Combinable, b: Combinable) {
+  // Type guard
+  if (typeof a === "string" || typeof b === "string") {
+    return a.toString() + b.toString();
+  }
+  return a + b;
+}
+
+type UnknownEmployee = Employee | Admin;
+
+// We can use a "in" keyword to check if a property exists in an object.
+// The "in" keyword is accessible in the JavaScript runtime.
+
+function printEmployeeInformation(emp: UnknownEmployee) {
+  console.log("Name: " + emp.name);
+  // Type guard
+  if ("privileges" in emp) {
+    console.log("Privileges: " + emp.privileges);
+  }
+  // Type guard
+  if ("startDate" in emp) {
+    console.log("Start Date: " + emp.startDate);
+  }
+}
+
+printEmployeeInformation(e1);
+
+// Type guard using instanceof for classes
+// instanceof is a JavaScript feature that allows us to check if an object is an instance of a class.
+
+class Car {
+  drive() {
+    console.log("Driving...");
+  }
+}
+
+class Truck {
+  drive() {
+    console.log("Driving a truck...");
+  }
+
+  loadCargo(amount: number) {
+    console.log("Loading cargo..." + amount);
+  }
+}
+
+type Vehicle = Car | Truck;
+
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+  vehicle.drive();
+  // Type guard
+  if (vehicle instanceof Truck) {
+    vehicle.loadCargo(1000);
+  }
+}
+useVehicle(v1);
+useVehicle(v2);
+
+////////////////////////// Discriminated Unions //////////////////////////
+
+// Discriminated unions allow us to add a common property to each object in a union type.
+
+interface Bird {
+  type: "bird";
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: "horse";
+  runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+  switch (animal.type) {
+    case "bird":
+      speed = animal.flyingSpeed;
+      break;
+    case "horse":
+      speed = animal.runningSpeed;
+      break;
+  }
+  console.log("Moving with speed: " + speed);
+}
+
+const horse: Animal = { type: "horse", runningSpeed: 15 };
+moveAnimal(horse);
+
+moveAnimal({ type: "bird", flyingSpeed: 10 });
