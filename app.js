@@ -1,4 +1,5 @@
 "use strict";
+var _a;
 console.log("app.ts successfully compiled");
 const e1 = {
     name: "Max",
@@ -85,3 +86,25 @@ const errorBag = {
     email: "Not a valid email!",
     username: "Must start with a capital character!",
 };
+function addFn(a, b) {
+    // Type guard
+    if (typeof a === "string" || typeof b === "string") {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+const result = addFn(1, 5);
+const result2 = addFn("Max", " Schwarz");
+////////////////////////// Optional Chaining //////////////////////////
+// Optional chaining allows us to access properties of an object that might be undefined.
+const fetchedUserData = {
+    id: "u1",
+    name: "Max",
+    job: { title: "CEO", description: "My own company" },
+};
+// Optional chaining
+console.log((_a = fetchedUserData === null || fetchedUserData === void 0 ? void 0 : fetchedUserData.job) === null || _a === void 0 ? void 0 : _a.title);
+////////////////////////// Nullish Coalescing //////////////////////////
+// Nullish coalescing allows us to set a default value if a variable is null or undefined.
+const userInput = null;
+const storedData = userInput !== null && userInput !== void 0 ? userInput : "DEFAULT";

@@ -169,3 +169,43 @@ const errorBag: ErrorContainer = {
   email: "Not a valid email!",
   username: "Must start with a capital character!",
 };
+
+////////////////////////// Function Overloads //////////////////////////
+
+// Function overloads allow us to define multiple function signatures for a function.
+
+// For example, we can define a function that can accept two numbers and return a number, or two strings and return a string.
+function addFn(a: number, b: number): number;
+function addFn(a: string, b: string): string;
+
+function addFn(a: Combinable, b: Combinable) {
+  // Type guard
+  if (typeof a === "string" || typeof b === "string") {
+    return a.toString() + b.toString();
+  }
+  return a + b;
+}
+
+const result = addFn(1, 5);
+const result2 = addFn("Max", " Schwarz");
+
+////////////////////////// Optional Chaining //////////////////////////
+
+// Optional chaining allows us to access properties of an object that might be undefined.
+
+const fetchedUserData = {
+  id: "u1",
+  name: "Max",
+  job: { title: "CEO", description: "My own company" },
+};
+
+// Optional chaining
+console.log(fetchedUserData?.job?.title);
+
+////////////////////////// Nullish Coalescing //////////////////////////
+
+// Nullish coalescing allows us to set a default value if a variable is null or undefined.
+
+const userInput = null;
+
+const storedData = userInput ?? "DEFAULT";
