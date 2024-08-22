@@ -132,3 +132,26 @@ const horse: Animal = { type: "horse", runningSpeed: 15 };
 moveAnimal(horse);
 
 moveAnimal({ type: "bird", flyingSpeed: 10 });
+
+////////////////////////// Type Casting //////////////////////////
+
+// Type casting allows us to tell TypeScript that a certain value is of a certain type.
+
+// Example 1
+const paragraph = document.querySelector("p");
+
+const paragraphId = document.getElementById("message-output");
+
+// Type casting
+const userInputElement = <HTMLInputElement>(
+  document.getElementById("user-input")!
+);
+userInputElement.value = "Hi there!";
+
+// Alternative syntax
+const userInputElement2 = document.getElementById(
+  "user-input"
+)! as HTMLInputElement;
+userInputElement2.value = "Hi there!";
+
+// Exclamation mark (!) tells TypeScript that the element will never be null.
