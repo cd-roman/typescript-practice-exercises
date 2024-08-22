@@ -81,4 +81,7 @@ userInputElement.value = "Hi there!";
 // Alternative syntax
 const userInputElement2 = document.getElementById("user-input");
 userInputElement2.value = "Hi there!";
-// Exclamation mark (!) tells TypeScript that the element will never be null.
+const errorBag = {
+    email: "Not a valid email!",
+    username: "Must start with a capital character!",
+};

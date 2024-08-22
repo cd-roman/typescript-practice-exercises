@@ -155,3 +155,17 @@ const userInputElement2 = document.getElementById(
 userInputElement2.value = "Hi there!";
 
 // Exclamation mark (!) tells TypeScript that the element will never be null.
+
+////////////////////////// Index Properties //////////////////////////
+
+// Index properties allow us to create objects with dynamic keys.
+
+interface ErrorContainer {
+  // We can use strings, numbers, or symbols as keys.
+  [property: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+  email: "Not a valid email!",
+  username: "Must start with a capital character!",
+};
