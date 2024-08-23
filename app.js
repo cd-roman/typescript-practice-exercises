@@ -43,3 +43,31 @@ function extractAndConvert(obj, key) {
     return `Value: ${obj[key]}`;
 }
 console.log(extractAndConvert({ name: "Max" }, "name")); // Output: Value: Max
+// Example 5: Generic Classes
+// Important to note, that it perfectly works with primitive values: number, string, boolean, but not with objects
+// In order to use objects, we need to store the reference to the object, not the object itself
+// In this example, we create a generic class that can store any type of data
+class DataStorage {
+    constructor() {
+        this.data = [];
+    }
+    addItem(item) {
+        this.data.push(item);
+    }
+    removeItem(item) {
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    getItems() {
+        return [...this.data];
+    }
+}
+// Then we can create instances of the class with different types of data
+// For example, we can create an instance that stores strings
+const textStorage = new DataStorage();
+textStorage.addItem("Max");
+textStorage.addItem("Joey");
+textStorage.addItem("Monica");
+textStorage.removeItem("Max");
+console.log(textStorage.getItems()); // Output: ["Joey"]
+// We can also create an instance that stores numbers or both strings and numbers
+const numberStorage = new DataStorage();
