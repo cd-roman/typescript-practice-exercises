@@ -71,3 +71,18 @@ textStorage.removeItem("Max");
 console.log(textStorage.getItems()); // Output: ["Joey"]
 // We can also create an instance that stores numbers or both strings and numbers
 const numberStorage = new DataStorage();
+function createCourseGoal(title, description, date) {
+    // We can use Partial utility type to make all properties optional here when creating an object
+    let courseGoal = {};
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+    return courseGoal;
+}
+// Example 2: Readonly Utility Type
+// Readonly utility type makes all properties of an object read-only
+const namesRead = ["Max", "Joey"];
+// Now, when we try to change the array, we get an error
+// namesRead.push("Monica"); // Error: Property 'push' does not exist on type 'readonly string[]'
+// namesRead.pop(); // Error: Property 'pop' does not exist on type 'readonly string[]'
+// Readonly utility type can also be used with objects
