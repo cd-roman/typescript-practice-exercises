@@ -16,6 +16,8 @@ promise.then((data) => {
 });
 // Example 2: Creating a Generic Function
 // The T and U are placeholders for the types that will be passed to the function when it is called
+// To specify the type of the argument, we can use constraints with extends keyword
+// In this example, the constraints specify that both types passed to the function must be objects
 function merge(objA, objB) {
     return Object.assign(objA, objB);
 }
