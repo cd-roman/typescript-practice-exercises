@@ -27,3 +27,19 @@ const mergedObj2 = merge({ name: "Joey", hobbies: ["Sports"] }, { age: 32 });
 console.log(mergedObj.name); // Output: Max
 console.log(mergedObj.age); // Output: 30
 console.log(mergedObj2.name); // Output: Joey
+function countAndDescribe(element) {
+    let description = "No value";
+    if (element.length === 1) {
+        description = "Got 1 element.";
+    }
+    else if (element.length > 1) {
+        description = `Got ${element.length} elements.`;
+    }
+    return [element, description];
+}
+console.log(countAndDescribe("Hi there!")); // Output: ["Hi there!", "Got 9 elements."]
+// Example 4: Creating a Generic function with "keyof" constraint
+function extractAndConvert(obj, key) {
+    return `Value: ${obj[key]}`;
+}
+console.log(extractAndConvert({ name: "Max" }, "name")); // Output: Value: Max
