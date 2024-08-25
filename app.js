@@ -1,88 +1,134 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 console.log("app.ts successfully compiled");
-//////////////////////// GENERICS ////////////////////////
-// Generics are a way to make components reusable, by allowing them to work with any data type.
-// Example 1: Built-in Generics
-// Array is a built-in generic type in TypeScript
-const names = []; // same as const names: string[] = [];
-// Promise is also a built-in generic type in TypeScript
-const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve("This is done!");
-    }, 2000);
-});
-promise.then((data) => {
-    console.log(data.split(" "));
-});
-// Example 2: Creating a Generic Function
-// The T and U are placeholders for the types that will be passed to the function when it is called
-// To specify the type of the argument, we can use constraints with extends keyword
-// In this example, the constraints specify that both types passed to the function must be objects
-function merge(objA, objB) {
-    return Object.assign(objA, objB);
+//////////////////////// DECORATORS ////////////////////////
+// Decorators are a special kind of declaration that can be attached to a class declaration, method, accessor, property, or parameter.
+// Decorators use the form @expression, where expression must evaluate to a function that will be called at runtime with information about the decorated declaration.
+function Logger(constructor) {
+    console.log("Logging...");
+    console.log(constructor);
 }
-// Now we can call the function with any type of object
-const mergedObj = merge({ name: "Max" }, { age: 30 });
-const mergedObj2 = merge({ name: "Joey", hobbies: ["Sports"] }, { age: 32 });
-console.log(mergedObj.name); // Output: Max
-console.log(mergedObj.age); // Output: 30
-console.log(mergedObj2.name); // Output: Joey
-function countAndDescribe(element) {
-    let description = "No value";
-    if (element.length === 1) {
-        description = "Got 1 element.";
-    }
-    else if (element.length > 1) {
-        description = `Got ${element.length} elements.`;
-    }
-    return [element, description];
-}
-console.log(countAndDescribe("Hi there!")); // Output: ["Hi there!", "Got 9 elements."]
-// Example 4: Creating a Generic function with "keyof" constraint
-function extractAndConvert(obj, key) {
-    return `Value: ${obj[key]}`;
-}
-console.log(extractAndConvert({ name: "Max" }, "name")); // Output: Value: Max
-// Example 5: Generic Classes
-// Important to note, that it perfectly works with primitive values: number, string, boolean, but not with objects
-// In order to use objects, we need to store the reference to the object, not the object itself
-// In this example, we create a generic class that can store any type of data
-class DataStorage {
+let Person = class Person {
     constructor() {
-        this.data = [];
+        this.name = "Joey";
+        console.log("Creating a person object");
     }
-    addItem(item) {
-        this.data.push(item);
+};
+Person = __decorate([
+    Logger
+], Person);
+const pers = new Person();
+console.log(pers);
+// Decorator Factory
+// Decorator factories are functions that return the expression that will be called by the decorator at runtime.
+function Logger2(logString) {
+    return function (constructor) {
+        console.log(logString);
+        console.log(constructor);
+    };
+}
+let Person2 = class Person2 {
+    constructor() {
+        this.name = "Joey";
+        console.log("Creating a person object");
     }
-    removeItem(item) {
-        this.data.splice(this.data.indexOf(item), 1);
+};
+Person2 = __decorate([
+    Logger2("LOGGING - PERSON")
+], Person2);
+// We can also use decorators to access DOM elements
+function Logger3(logString) {
+    return function (constructor) {
+        console.log(logString);
+        console.log(constructor);
+    };
+}
+function WithTemplate(template, hookId) {
+    return function (constructor) {
+        console.log("Rendering template");
+        const hookEl = document.getElementById(hookId);
+        const p = new constructor();
+        if (hookEl) {
+            hookEl.innerHTML = template;
+            hookEl.querySelector("h2").textContent = p.name;
+        }
+    };
+}
+// We can add multiple decorators to a class
+let Person3 = class Person3 {
+    constructor() {
+        this.name = "Joey";
+        console.log("Creating a person object");
     }
-    getItems() {
-        return [...this.data];
+};
+Person3 = __decorate([
+    Logger,
+    WithTemplate("<h2>My Person Object</h2>", "app")
+], Person3);
+// The creation of the decorators is done from top to bottom, but the execution of the actual decorator functions happen from bottom to top.
+// Property Decorators
+// Property decorators are used to add metadata to class properties.
+function Log(target, propertyName) {
+    console.log("Property decorator");
+    console.log(target, propertyName);
+}
+// Accessor Decorators
+// Accessor decorators are used to add metadata to accessors of a class.
+function Log2(target, name, descriptor) {
+    console.log("Accessor decorator!");
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+// Method Decorators
+// Method decorators are used to add metadata to class methods.
+function Log3(target, name, descriptor) {
+    console.log("Method decorator!");
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+// Parameter Decorators
+// Parameter decorators are used to add metadata to parameters of a class method.
+function Log4(target, name, position) {
+    console.log("Parameter decorator!");
+    console.log(target);
+    console.log(name);
+    console.log(position);
+}
+class Product {
+    constructor(t, p) {
+        this.title = t;
+        this._price = p;
+    }
+    set price(val) {
+        if (val > 0) {
+            this._price = val;
+        }
+        else {
+            throw new Error("Invalid price - should be positive");
+        }
+    }
+    getPriceWithTax(tax) {
+        return this._price * (1 + tax);
     }
 }
-// Then we can create instances of the class with different types of data
-// For example, we can create an instance that stores strings
-const textStorage = new DataStorage();
-textStorage.addItem("Max");
-textStorage.addItem("Joey");
-textStorage.addItem("Monica");
-textStorage.removeItem("Max");
-console.log(textStorage.getItems()); // Output: ["Joey"]
-// We can also create an instance that stores numbers or both strings and numbers
-const numberStorage = new DataStorage();
-function createCourseGoal(title, description, date) {
-    // We can use Partial utility type to make all properties optional here when creating an object
-    let courseGoal = {};
-    courseGoal.title = title;
-    courseGoal.description = description;
-    courseGoal.completeUntil = date;
-    return courseGoal;
-}
-// Example 2: Readonly Utility Type
-// Readonly utility type makes all properties of an object read-only
-const namesRead = ["Max", "Joey"];
-// Now, when we try to change the array, we get an error
-// namesRead.push("Monica"); // Error: Property 'push' does not exist on type 'readonly string[]'
-// namesRead.pop(); // Error: Property 'pop' does not exist on type 'readonly string[]'
-// Readonly utility type can also be used with objects
+__decorate([
+    Log
+], Product.prototype, "title", void 0);
+__decorate([
+    Log2
+], Product.prototype, "price", null);
+__decorate([
+    Log3,
+    __param(0, Log4)
+], Product.prototype, "getPriceWithTax", null);
+// Decorators are executed when the class is defined, not when the class is instantiated.
